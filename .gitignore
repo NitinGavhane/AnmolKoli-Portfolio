@@ -1,0 +1,12 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Design reference images (kept locally, not part of the site)
+Free Dark Website Template Built in Framer.jpeg
+Jorge Marrufo - Creative Director in Mexico City, Mexico.jpeg
+
+# Local tooling
+node_modules/
+.vscode/
+.idea/

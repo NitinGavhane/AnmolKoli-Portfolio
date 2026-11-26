@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#141414">
 <meta name="claude:viewport-fit-sides" content="cover">
 <title>Anmol Koli</title>
 <meta name="description" content="Anmol Koli — Marathi rapper and YouTuber. Roasts, podcasts and Marathi rap. Music on Spotify, Apple Music and JioSaavn.">
@@ -482,7 +488,52 @@
   .foot-links a { font-size: 0.84rem; font-weight: 600; color: var(--muted); }
   .foot-links a:hover { color: var(--accent); }
   .foot-base { padding-block: 18px; border-top: 1px solid var(--line); font-size: 0.76rem; color: var(--muted); }
+
+  /* ————— responsive: mobile menu + small screens ————— */
+  [hidden] { display: none !important; }
+  .menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 12px 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .menu-btn span { display: block; width: 22px; height: 2px; background: #fff; }
+  .mobile-menu {
+    display: grid;
+    gap: 4px;
+    margin: 0 0 32px;
+    padding: 12px;
+    border-radius: 14px;
+    background: rgba(58, 8, 2, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .mobile-menu a {
+    padding: 12px 14px;
+    border-radius: 9px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .mobile-menu a:hover { background: rgba(255, 255, 255, 0.14); }
+  @media (min-width: 641px) { .mobile-menu { display: none !important; } }
+
+  @media (max-width: 640px) {
+    .menu-btn { display: inline-flex; }
+    .hero-nav { margin-bottom: 20px; }
+  }
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .uploads a { flex-direction: column; align-items: flex-start; gap: 2px; }
+    .hero-services { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .strip { flex-direction: column; align-items: flex-start; }
+  }
 </style>
+</head>
+<body>
 
 <main id="top">
 
@@ -496,8 +547,15 @@
           <a class="navlink" href="#music">Music</a>
           <a class="navlink" href="#videos">Videos</a>
           <a class="pill small" href="#contact">Get in touch<span class="dot">→</span></a>
+          <button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu"><span></span><span></span></button>
         </div>
       </nav>
+      <div class="mobile-menu" id="mobileMenu" hidden>
+        <a href="#about">About</a>
+        <a href="#music">Music</a>
+        <a href="#videos">Videos</a>
+        <a href="#contact">Get in touch</a>
+      </div>
 
       <div class="hero-grid">
         <div class="hero">
@@ -811,6 +869,29 @@
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+  // mobile menu toggle
+  var menuBtn = document.getElementById("menuBtn");
+  var mobileMenu = document.getElementById("mobileMenu");
+  if (menuBtn && mobileMenu) {
+    var setMenu = function (open) {
+      menuBtn.setAttribute("aria-expanded", String(open));
+      menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      mobileMenu.hidden = !open;
+    };
+    menuBtn.addEventListener("click", function () {
+      setMenu(mobileMenu.hidden);
+    });
+    mobileMenu.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () { setMenu(false); });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !mobileMenu.hidden) {
+        setMenu(false);
+        menuBtn.focus();
+      }
+    });
+  }
+
   // stat count-up (respects reduced motion; falls back to final values)
   var reduceMotion = false;
   try {
@@ -886,3 +967,5 @@
   });
 })();
 </script>
+</body>
+</html>
